@@ -16,6 +16,8 @@ namespace ProjectManagementApp
             }
             return result;
         }
+
+
         public static MyCollection<T> Search<T>(this IEnumerable<T> list, ISearchCriteria<T> criteria)
         {
             var result = new MyCollection<T>();
@@ -95,6 +97,38 @@ namespace ProjectManagementApp
             }
             return result;
         }
+
+        public static IDictionary<TKey, IList<T>> GroupBy<T, TKey>(this IEnumerable<T> list, 
+            Func<T, TKey> keySelector)
+        {
+            var result = new Dictionary<TKey, IList<T>>();
+            foreach (var item in list)
+            {
+                var key = keySelector(item);
+                if (!result.ContainsKey(key)) result.Add(key,new List<T>());
+                result[key].Add(item);
+            }
+            return result;
+        }
+ 
+        public static IEnumerable<TResult> Join<T1, T2, TKey, TResult>(this IEnumerable<T1> list, 
+            IEnumerable<T2> outer,
+            Func<T1, TKey> innerKeySelector,
+            Func<T2, TKey> outerKeySelector,
+            Func<T1, T2, TResult> transform)
+        {
+            foreach (var item in list)
+            {
+                var innerKey = innerKeySelector(item);
+                foreach (var outerItem in outer)
+                {
+                    var outerKey = outerKeySelector(outerItem);
+                    if (innerKey.Equals(outerKey))
+                        yield return transform(item, outerItem);
+                }
+            }
+        } 
+ 
 
     }
 }

@@ -39,6 +39,42 @@ namespace ProjectManagementApp
             Console.WriteLine("=================================");
             Console.WriteLine(products.Min(p => p.Cost));
             Console.WriteLine();
+
+            var productsByCategory = products.GroupBy(p => p.Category);
+            Console.WriteLine("Products By Category");
+            Console.WriteLine("=================================");
+            foreach (var productCategory in productsByCategory)
+            {
+                Console.WriteLine("Category = {0}", productCategory.Key);
+                foreach (var product in productCategory.Value)
+                {
+                    Console.WriteLine("\t{0}", product.Format("\t"));
+                }
+            }
+            Console.WriteLine();
+            // Join //
+            var categories = new MyCollection<Category>
+                {
+                    new Category() {Id = 1, Name = "Stationary"},
+                    new Category() {Id = 2, Name = "Electronics"}
+                };
+
+            var productWithCategory = products.Join(categories, p => p.Category, c => c.Id,
+                                                    (p, c) => new ProductCategory()
+                                                        {
+                                                            Id = p.Id,
+                                                            Name = p.Name,
+                                                            Cost = p.Cost,
+                                                            Units = p.Units,
+                                                            CategoryName = c.Name
+                                                        });
+            Console.WriteLine("Products joined with Categories");
+            Console.WriteLine("===========================================");
+            foreach (var productCategory in productWithCategory)
+            {
+                Console.WriteLine(productCategory.Format("\t"));
+            }
+            Console.ReadLine();
             var employee = new Employee {Id = 100, FirstName = "Magesh", LastName = "K", Salary = 10000};
             Console.WriteLine(MyUtilities.Format(employee,"\t"));
             Console.WriteLine();
@@ -85,24 +121,6 @@ namespace ProjectManagementApp
                 Console.WriteLine(MyUtilities.Format(product,"\t"));
             }
             Console.WriteLine();
-        }
-    }
-
-    public static class MyUtils
-    {
-        public static List<int> GetEvenNumbers(int limit)
-        {
-            var result = new List<int>();
-            for(var i=1;i<=limit;i++)
-                if (i % 2 == 0) result.Add(i);
-            return result;
-        } 
-
-        public static IEnumerable<int> GetEvenNumbersLazy(int limit)
-        {
-            for (var i = 1; i <= limit; i++)
-                if (i%2 == 0)
-                    yield return i;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace ProjectManagementApp
@@ -9,7 +8,7 @@ namespace ProjectManagementApp
     {
         static void Main(string[] args)
         {
-            var products = new ProductsCollection();
+            var products = new MyCollection<Product>();
             products.Add(new Product { Id = 12, Name = "Pen", Cost = 10, Units = 21, Category = 1});
             products.Add(new Product { Id = 18, Name = "Zen", Cost = 20, Units = 17, Category = 1 });
             products.Add(new Product { Id = 13, Name = "Ken", Cost = 19, Units = 10, Category = 2 });
@@ -33,6 +32,38 @@ namespace ProjectManagementApp
                 });*/
             var categoryTwoProducts = products.Search(product => product.Category == 2);
             PrintProducts("Category - 2 Products", categoryTwoProducts);
+            Console.WriteLine("Minimum Id");
+            Console.WriteLine("=================================");
+            Console.WriteLine(products.Min(p => p.Id));
+            Console.WriteLine("Minimum Cost");
+            Console.WriteLine("=================================");
+            Console.WriteLine(products.Min(p => p.Cost));
+            Console.WriteLine();
+            var employee = new Employee {Id = 100, FirstName = "Magesh", LastName = "K", Salary = 10000};
+            Console.WriteLine(MyUtilities.Format(employee,"\t"));
+            Console.WriteLine();
+            var evenNumbers = MyUtils.GetEvenNumbers(100);
+            var counter = 0;
+            var evenNumbersEnumerator = evenNumbers.GetEnumerator();
+            while (evenNumbersEnumerator.MoveNext())
+            {
+                Console.WriteLine(evenNumbersEnumerator.Current);
+                counter++;
+                if (counter >= 10)
+                    break;
+            }
+            Console.WriteLine();
+            Console.WriteLine("Lazy");
+            var evenNumbersLazy = MyUtils.GetEvenNumbersLazy(100);
+            var counterLazy = 0;
+            var evenNumbersEnumeratorLazy = evenNumbersLazy.GetEnumerator();
+            while (evenNumbersEnumeratorLazy.MoveNext())
+            {
+                Console.WriteLine(evenNumbersEnumeratorLazy.Current);
+                counterLazy++;
+                if (counterLazy >= 10)
+                    break;
+            }
             
             Console.ReadLine();
 
@@ -43,7 +74,7 @@ namespace ProjectManagementApp
             return product.Category == 2;
         }
 
-        private static void PrintProducts(string title, ProductsCollection products)
+        private static void PrintProducts(string title, IEnumerable<Product> products)
         {
             Console.WriteLine(title);
             Console.WriteLine("===========================================");
@@ -51,26 +82,27 @@ namespace ProjectManagementApp
                 Console.WriteLine(products[i]);*/
             foreach (var product in products)
             {
-                Console.WriteLine(product);
+                Console.WriteLine(MyUtilities.Format(product,"\t"));
             }
             Console.WriteLine();
         }
     }
 
-    public class ProductSearchCriteriaByCategory : IProductSearchCriteria
+    public static class MyUtils
     {
-        private readonly int _category;
-
-        public ProductSearchCriteriaByCategory(int category)
+        public static List<int> GetEvenNumbers(int limit)
         {
-            _category = category;
-        }
+            var result = new List<int>();
+            for(var i=1;i<=limit;i++)
+                if (i % 2 == 0) result.Add(i);
+            return result;
+        } 
 
-        public bool IsSatisfiedBy(Product product)
+        public static IEnumerable<int> GetEvenNumbersLazy(int limit)
         {
-            return product.Category == _category;
+            for (var i = 1; i <= limit; i++)
+                if (i%2 == 0)
+                    yield return i;
         }
     }
-
-    public delegate bool ProductCriteriaDelegate(Product product);
 }

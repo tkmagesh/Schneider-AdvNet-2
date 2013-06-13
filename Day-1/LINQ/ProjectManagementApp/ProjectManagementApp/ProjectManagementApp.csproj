@@ -41,8 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeSelectorDelegate.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="ISearchCriteria.cs" />
+    <Compile Include="MyCollection.cs" />
+    <Compile Include="MyUtilities.cs" />
     <Compile Include="Product.cs" />
-    <Compile Include="ProductsCollection.cs" />
+    <Compile Include="CriteriaDelegate.cs" />
+    <Compile Include="ProductSearchCriteriaByCategory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

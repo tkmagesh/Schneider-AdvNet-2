@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,14 +26,17 @@ namespace ParallelProgrammingDemo
         {
             InitializeComponent();
         }
-
+        
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            tbStatus.Text = "Work Started";
-            var task = new Task<DateTime>(doWork);
-            task.ContinueWith((t) => tbStatus.Text = "Work Completed at " + t.Result.ToLongTimeString()
+            _cancellationTokenSource = new CancellationTokenSource();
+            
+            isCancelled = false;
+            tbStatus.Text = "Work Started at " + DateTime.Now.ToLongTimeString();
+            _task = new Task<DateTime>(doWork,_cancellationTokenSource.Token);
+            _task.ContinueWith(UpdateCompletion
                 ,TaskScheduler.FromCurrentSynchronizationContext());
-            task.Start();
+            _task.Start();
 
             
             
@@ -40,7 +44,17 @@ namespace ParallelProgrammingDemo
 
         private void UpdateCompletion(Task<DateTime> t)
         {
-            tbStatus.Text = "Work Completed at " + t.Result.ToLongTimeString();
+
+            try
+            {
+                tbStatus.Text = "Task completed at " +  t.Result.ToLongTimeString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                if (t.IsCanceled)
+                    tbStatus.Text = "Task cancelled";
+            }
             //Debug.WriteLine("Work completed");
         }
 
@@ -48,6 +62,8 @@ namespace ParallelProgrammingDemo
         {
             for (int i = 0; i < 40000; i++)
             {
+                if (_cancellationTokenSource.IsCancellationRequested)
+                   _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 for (int j = 0; j < 1000; j++)
                 {
                     for (int k = 0; k < 100; k++)
@@ -57,6 +73,16 @@ namespace ParallelProgrammingDemo
                 }
             }
             return DateTime.Now;
+        }
+
+        private bool isCancelled = false;
+        private CancellationTokenSource _cancellationTokenSource;
+        private Task<DateTime> _task;
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            _cancellationTokenSource.Cancel();
+            //isCancelled = true;
         }
     }
 }

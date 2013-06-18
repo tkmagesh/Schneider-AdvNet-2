@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="94f6fe1a557d4037b1838fdcc828168a" Name="Diagram1">
+        <EntityTypeShape EntityType="AdventureWorksModelNS.Address" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.Customer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.CustomerAddress" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.Product" Width="1.5" PointX="6" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.ProductCategory" Width="1.5" PointX="3.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.ProductDescription" Width="1.5" PointX="3.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.ProductModel" Width="1.5" PointX="3.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.ProductModelProductDescription" Width="1.5" PointX="6" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.SalesOrderDetail" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksModelNS.SalesOrderHeader" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_CustomerAddress_Address_AddressID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_SalesOrderHeader_Address_BillTo_AddressID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_SalesOrderHeader_Address_ShipTo_AddressID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_CustomerAddress_Customer_CustomerID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_SalesOrderHeader_Customer_CustomerID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_Product_ProductCategory_ProductCategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_Product_ProductModel_ProductModelID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_SalesOrderDetail_Product_ProductID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_ProductCategory_ProductCategory_ParentProductCategoryID_ProductCategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_ProductModelProductDescription_ProductDescription_ProductDescriptionID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_ProductModelProductDescription_ProductModel_ProductModelID" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksModelNS.FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

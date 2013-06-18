@@ -20,7 +20,7 @@ namespace FirstWCFApp.WsdlClient
                 Console.ReadLine();
                 Console.WriteLine(calculator.Subtract(100, 0));
                 Console.ReadLine();
-                Console.WriteLine(calculator.Divide(100, 0));
+                Console.WriteLine(calculator.Divide(100, 10));
                 Console.ReadLine();
 
                 Console.WriteLine(calculator.Multiply(100, 200));
@@ -50,9 +50,9 @@ namespace FirstWCFApp.WsdlClient
                         Number2 = new Random().Next(200),
                         Operation = operations[new Random().Next(0,3)]
 
-                    });
+                    });*/
             Console.WriteLine("Done");
-     */           Console.ReadLine();
+               Console.ReadLine();
         }
     }
 }
